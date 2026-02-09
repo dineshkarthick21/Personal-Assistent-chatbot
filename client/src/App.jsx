@@ -107,7 +107,7 @@ function App() {
             <span className="logo-icon">🤖</span>
             <div>
               <div>AI Chat</div>
-              <div className="subtitle">Powered by Gemini 2.5</div>
+              <div className="subtitle">powered by DK</div>
             </div>
           </div>
         </div>
