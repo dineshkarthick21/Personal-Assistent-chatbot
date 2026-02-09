@@ -15,6 +15,9 @@ const AntigravityBackground = () => {
             canvas.height = window.innerHeight;
         };
 
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
         // Mouse state
         const mouse = {
             x: null,
@@ -22,20 +25,15 @@ const AntigravityBackground = () => {
             radius: 150
         };
 
-        const handleMouseMove = (event) => {
+        window.addEventListener('mousemove', (event) => {
             mouse.x = event.x;
             mouse.y = event.y;
-        };
+        });
 
-        const handleMouseLeave = () => {
+        window.addEventListener('mouseleave', () => {
             mouse.x = null;
             mouse.y = null;
-        };
-
-        window.addEventListener('resize', resizeCanvas);
-        window.addEventListener('mousemove', handleMouseMove);
-        window.addEventListener('mouseleave', handleMouseLeave);
-        resizeCanvas();
+        });
 
         class Particle {
             constructor() {
@@ -109,8 +107,7 @@ const AntigravityBackground = () => {
 
         return () => {
             window.removeEventListener('resize', resizeCanvas);
-            window.removeEventListener('mousemove', handleMouseMove);
-            window.removeEventListener('mouseleave', handleMouseLeave);
+            window.removeEventListener('mousemove', () => { }); // cleanup listener
             cancelAnimationFrame(animationFrameId);
         };
     }, []);
