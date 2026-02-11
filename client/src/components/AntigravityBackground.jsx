@@ -8,7 +8,7 @@ const AntigravityBackground = () => {
         const ctx = canvas.getContext('2d');
         let animationFrameId;
         let particles = [];
-        const particleCount = 1500;
+        const particleCount = 750;
 
         const resizeCanvas = () => {
             canvas.width = window.innerWidth;

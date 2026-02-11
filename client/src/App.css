@@ -36,10 +36,7 @@
 .logo {
   font-size: 1.5rem;
   font-weight: 700;
-  background: var(--accent-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--text-primary);
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -249,10 +246,16 @@
 }
 
 .message.ai .message-content {
-  background: var(--ai-message-bg);
+  background: #ffffff;
   color: var(--ai-message-text);
   border: 1px solid var(--border-color);
   border-bottom-left-radius: 4px;
+  position: relative;
+  z-index: 10;
+}
+
+[data-theme="dark"] .message.ai .message-content {
+  background: #1e293b;
 }
 
 .message-time {
