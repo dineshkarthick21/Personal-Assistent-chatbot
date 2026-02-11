@@ -43,7 +43,7 @@ app.post('/api/chat', async (req, res) => {
 
         // Get the generative model
         const model = genAI.getGenerativeModel({
-            model: 'gemini-1.5-flash',
+            model: 'gemini-2.5-flash',
             systemInstruction: "You are a direct and concise AI assistant. Answer the user's questions strictly and immediately. Do not explain that you are an AI, do not discuss your existence or internal processes, and do not use meta-commentary (e.g., 'That is a great question'). Just answer the question."
         });
 
@@ -77,7 +77,7 @@ app.post('/api/chat/conversation', async (req, res) => {
 
         // Get the generative model
         const model = genAI.getGenerativeModel({
-            model: 'gemini-1.5-flash',
+            model: 'gemini-2.5-flash',
             systemInstruction: "You are a direct and concise AI assistant. Answer the user's questions strictly and immediately. Do not explain that you are an AI, do not discuss your existence or internal processes, and do not use meta-commentary (e.g., 'That is a great question'). Just answer the question."
         });
 
