@@ -12,8 +12,19 @@ const PORT = process.env.PORT || 5000; // Port 5001 is set in .env to avoid EADD
 // Initialize Gemini AI
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
+// CORS configuration - Allow frontend to access the API
+const corsOptions = {
+    origin: [
+        'http://localhost:5173', // Local Vite dev server
+        'http://localhost:5001', // Local server
+        'https://personal-assistent-frontend.onrender.com' // Production frontend
+    ],
+    credentials: true,
+    optionsSuccessStatus: 200
+};
+
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Health check endpoint
