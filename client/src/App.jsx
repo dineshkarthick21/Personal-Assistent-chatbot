@@ -67,7 +67,8 @@ function App() {
       setMessages(prev => [...prev, aiMessage]);
     } catch (err) {
       console.error('Error sending message:', err);
-      setError(err.response?.data?.error || 'Failed to get response. Please try again.');
+      const errorMsg = err.response?.data?.error || err.message || 'Failed to get response. Please try again.';
+      setError(errorMsg);
     } finally {
       setIsLoading(false);
       inputRef.current?.focus();

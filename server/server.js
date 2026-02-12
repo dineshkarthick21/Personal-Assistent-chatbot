@@ -43,7 +43,7 @@ app.post('/api/chat', async (req, res) => {
 
         // Get the generative model
         const model = genAI.getGenerativeModel({
-            model: 'gemini-1.5-flash',
+            model: 'gemini-2.5-flash',
             systemInstruction: "You are a direct and concise AI assistant. Answer the user's questions strictly and immediately. Do not explain that you are an AI, do not discuss your existence or internal processes, and do not use meta-commentary (e.g., 'That is a great question'). Just answer the question."
         });
 
@@ -59,9 +59,10 @@ app.post('/api/chat', async (req, res) => {
 
     } catch (error) {
         console.error('Error generating response:', error);
+        const errorMessage = error.message || 'Unknown error occurred';
         res.status(500).json({
-            error: 'Failed to generate response',
-            details: error.message
+            error: errorMessage,
+            details: error.stack || error.toString()
         });
     }
 });
@@ -77,7 +78,7 @@ app.post('/api/chat/conversation', async (req, res) => {
 
         // Get the generative model
         const model = genAI.getGenerativeModel({
-            model: 'gemini-1.5-flash',
+            model: 'gemini-2.5-flash',
             systemInstruction: "You are a direct and concise AI assistant. Answer the user's questions strictly and immediately. Do not explain that you are an AI, do not discuss your existence or internal processes, and do not use meta-commentary (e.g., 'That is a great question'). Just answer the question."
         });
 
@@ -105,9 +106,10 @@ app.post('/api/chat/conversation', async (req, res) => {
 
     } catch (error) {
         console.error('Error in conversation:', error);
+        const errorMessage = error.message || 'Unknown error occurred';
         res.status(500).json({
-            error: 'Failed to generate response',
-            details: error.message
+            error: errorMessage,
+            details: error.stack || error.toString()
         });
     }
 });
