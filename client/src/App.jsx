@@ -13,6 +13,8 @@ function App() {
   const [error, setError] = useState(null);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
+  const lastRequestRef = useRef(null); // Track last request to prevent duplicates
+  const requestInProgressRef = useRef(false); // Prevent concurrent requests
 
   // Auto-scroll to bottom when new messages arrive
   const scrollToBottom = () => {
@@ -38,7 +40,17 @@ function App() {
   };
 
   const handleSendMessage = async (messageText = inputMessage) => {
-    if (!messageText.trim() || isLoading) return;
+    if (!messageText.trim() || isLoading || requestInProgressRef.current) return;
+
+    // Prevent duplicate requests for the same message
+    const messageKey = messageText.trim().toLowerCase();
+    if (lastRequestRef.current === messageKey) {
+      console.log('⚠️ Duplicate request prevented');
+      return;
+    }
+
+    lastRequestRef.current = messageKey;
+    requestInProgressRef.current = true;
 
     const userMessage = {
       id: Date.now(),
@@ -55,6 +67,8 @@ function App() {
     try {
       const response = await axios.post(`${API_URL}/chat/conversation`, {
         messages: [...messages, userMessage]
+      }, {
+        timeout: 30000 // 30 seconds timeout
       });
 
       const aiMessage = {
@@ -65,12 +79,22 @@ function App() {
       };
 
       setMessages(prev => [...prev, aiMessage]);
+      
+      // Clear last request after successful response
+      setTimeout(() => {
+        lastRequestRef.current = null;
+      }, 2000); // Allow same question after 2 seconds
+
     } catch (err) {
       console.error('Error sending message:', err);
       const errorMsg = err.response?.data?.error || err.message || 'Failed to get response. Please try again.';
       setError(errorMsg);
+      
+      // Clear last request on error
+      lastRequestRef.current = null;
     } finally {
       setIsLoading(false);
+      requestInProgressRef.current = false;
       inputRef.current?.focus();
     }
   };
@@ -85,6 +109,8 @@ function App() {
   const handleNewChat = () => {
     setMessages([]);
     setError(null);
+    lastRequestRef.current = null; // Reset request tracking
+    requestInProgressRef.current = false;
     inputRef.current?.focus();
   };
 
